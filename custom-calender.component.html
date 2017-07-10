@@ -1,0 +1,33 @@
+<table class="no-border">
+    <tbody>
+        <tr>
+            <td>
+                <div class="full-fluid">
+                    <label>Date</label>
+                    <div class="custom-dropdown" id="drop1">
+                        <div custom-dropdown [themeColor]="themeClass" [isSearchEnabled]="false" [dataTextField]="'dayText'" [dataValueField]="'dayValue'" [data]="days" [selectedModel]="selectedDay" (onSelection)="selectedDay=$event;onItemSelection();" (onTouched)="isEmptyDay=$event">
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="full-fluid">
+                    <label>Month</label>
+                    <div class="custom-dropdown" id="drop2">
+                        <div custom-dropdown [themeColor]="themeClass" [isSearchEnabled]="false" [dataTextField]="'monthText'" [dataValueField]="'monthValue'" [data]="months" [selectedModel]="selectedMonth" (onSelection)="selectedMonth=$event;onItemSelection();" (onTouched)="isEmptyMonth=$event">
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="full-fluid">
+                    <label>Year</label>
+                    <div class="custom-dropdown" id="drop3">
+                        <div custom-dropdown [themeColor]="themeClass" [isSearchEnabled]="false" [dataTextField]="'yearText'" [dataValueField]="'yearValue'" [data]="years" [selectedModel]="selectedYear" (onSelection)="selectedYear=$event;onItemSelection();" (onTouched)="isEmptyYear=$event">
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>

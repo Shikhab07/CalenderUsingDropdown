@@ -1,0 +1,22 @@
+$white:#fff;
+$sky-blue:#edf5ff;
+$sky-blue-dark:#79a4cf;
+$font-blue:#336699;
+$font-lightblue:#79a4cf;
+$fade-color:#ccc;
+table.no-border {
+    td {
+        border-bottom: none;
+        border-top: none;
+        &:first-child {
+            border-left: none;
+        }
+        &:last-child {
+            border-right: none;
+        }
+    }
+}
+
+.dark-sky {}
+
+.sky-blue {}
