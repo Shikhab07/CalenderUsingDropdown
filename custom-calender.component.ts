@@ -5,7 +5,7 @@ import {
 import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
 import { isNullOrUndefined } from 'util';
-
+import { TranslateService } from "@ngx-translate/core";
 @Component({
     providers: [DatePipe],
     selector: 'custom-calender',
@@ -32,9 +32,10 @@ export class CustomCalenderComponent implements OnChanges {
 
     @Input() themeClass: string;
     @Input() data: Date;
-    @Output() onValueChange: EventEmitter<Date> = new EventEmitter();
+    @Input() disableFuture: boolean;
+    @Output() onValueChange: EventEmitter<string> = new EventEmitter();
 
-    constructor(private _eref: ElementRef) {
+    constructor(private _eref: ElementRef, private translateService: TranslateService) {
         this.date = new Date();
         this.selectedDay = { dayValue: 0, dayText: '' };
         this.selectedMonth = { monthValue: 0, monthText: '' };
@@ -44,8 +45,8 @@ export class CustomCalenderComponent implements OnChanges {
     ngOnChanges(changes: SimpleChanges) {
         const data: SimpleChange = changes.data;
         if (!isNullOrUndefined(data)) {
-            this.date = this.data;
-            this.momentDate = moment(this.date);
+            this.date = new Date(this.data);
+            this.momentDate = moment(this.date, 'LLLL');
             this.getSelectedDateParameters(this.momentDate);
             this.getDays();
             this.getMonths();
@@ -55,22 +56,23 @@ export class CustomCalenderComponent implements OnChanges {
 
     getSelectedDateParameters(momentDate) {
         this.selectedDay = { dayValue: momentDate.date(), dayText: momentDate.date().toString() };
-        this.selectedMonth = { monthValue: momentDate.month() + 1, monthText: (momentDate.month() + 1).toString() };
+        // month 0-11 . Get month name from moment  Jan -Dec
+        this.selectedMonth = { monthValue: momentDate.month(), monthText: this.getMonthName((momentDate.month())) };
         this.selectedYear = { yearValue: momentDate.year(), yearText: momentDate.year().toString() };
     }
 
     onItemSelection() {
         const day = this.selectedDay['dayValue'];
-        const month = this.selectedMonth['monthValue'] - 1;
+        const month = this.selectedMonth['monthValue'];
         const year = this.selectedYear['yearValue'];
+        // e. g. 7 Feb 2017 => label: Feb value: 1
         this.selectedDate = new Date(year, month, day);
-        console.log(this.selectedDate);
-        this.onValueChange.emit(this.selectedDate);
+        console.log(JSON.stringify(moment(this.selectedDate).format()));
+        this.onValueChange.emit(moment(this.selectedDate).format());
     }
 
 
     private getDays() {
-        //clear dropdown first
         this.days = [];
         const days = this.momentDate.daysInMonth();
         for (let i = 1; i <= days; i++) {
@@ -79,23 +81,37 @@ export class CustomCalenderComponent implements OnChanges {
     }
 
     private getMonths() {
-        //clear dropdown first
+        const lang = this.translateService.currentLang;
+        moment.locale(lang);
         this.months = [];
-        for (let i = 1; i <= 12; i++) {
-            this.months.push({ monthValue: i, monthText: i.toString() });
-        }
+        this.months = moment.monthsShort().map((month, i) => {
+            return { monthValue: i, monthText: month };
+        });
+    }
+
+    private getMonthName(month) {
+        const months = Array.apply(0, new Array(12)).map(function (_, i) {
+            return moment().month(i).format('MMM');
+        });
+        return months[month];
     }
 
     private getYears() {
         if (this.years.length === 0) {
-            //clear dropdown first
             const currentYear = this.momentDate.year();
             this.years = [];
-            const years = currentYear + 10;
-            for (let i = currentYear; i <= years; i++) {
-                this.years.push({ yearValue: i, yearText: i.toString() });
+            let years = 0;
+            if (this.disableFuture) {
+                years = currentYear - 90;
+                for (let i = currentYear; i >= years; i--) {
+                    this.years.push({ yearValue: i, yearText: i.toString() });
+                }
+            } else {
+                years = currentYear + 60;
+                for (let i = currentYear; i <= years; i++) {
+                    this.years.push({ yearValue: i, yearText: i.toString() });
+                }
             }
         }
     }
-
 }
