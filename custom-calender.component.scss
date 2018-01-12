@@ -1,22 +1,85 @@
-$white:#fff;
-$sky-blue:#edf5ff;
-$sky-blue-dark:#79a4cf;
-$font-blue:#336699;
-$font-lightblue:#79a4cf;
-$fade-color:#ccc;
-table.no-border {
-    td {
-        border-bottom: none;
-        border-top: none;
-        &:first-child {
-            border-left: none;
-        }
-        &:last-child {
-            border-right: none;
-        }
-    }
-}
+                $white:#fff;
+                $sky-blue:#edf5ff;
+                $sky-blue-dark:#79a4cf;
+                $font-blue:#336699;
+                $font-lightblue:#79a4cf;
+                $fade-color:#ccc;
+                .date-selector {
+                    .calender-wrapper {
+                        padding: 0;
+                        .custom-calender {
+                            label {
+                                text-transform: uppercase;
+                            }
+                            .form-group {
+                                .dropdown {
+                                    .input-hold {
+                                        .fa-chevron-down {
+                                            @media (max-width: 1024px) {
+                                                position: inherit;
+                                                text-align: center;
+                                                display: block;
+                                                padding-bottom: 7px;
+                                            }
+                                        }
+                                    }
+                                }
+                                ul{
+                                  &.dropdown-menu{
+                                      margin-top:3px;
+                                  } 
+                                }
 
-.dark-sky {}
+                            }
+                            td {
+                                width: 33.333%;
+                            }
+                            &.no-border {
+                                td {
+                                    padding-right: 0;
+                                    padding-bottom: 3px;
+                                    padding-top: 2px;
+                                    border-bottom: none;
+                                    border-top: none;
+                                    vertical-align: top;
+                                    &:first-child {
+                                        border-left: none;
+                                    }
+                                    &:last-child {
+                                        border-right: none;
+                                    }
+                                }
+                                .dropdown-menu {
+                                    //margin-left: -8px;
+                                    min-width: 105px !important;
+                                }
+                            }
+                        }
+                    }
+                }
 
-.sky-blue {}
+                li.date-container {
+                    padding: 0 !important;
+                    .date-label {
+                        border: 0;
+                        &:first-of-type {
+                            border-right: 1px solid $white;
+                        }
+                    }
+                }
+
+                .custom-year {
+                    .searchBox {
+                        @media (max-width: 991px) and (min-width:768px) {
+                            display: none;
+                        }
+                    }
+                    .truncatedLabel {
+                        display: none !important;
+                        font-size: 20px !important;
+                        text-align: center !important;
+                        @media (max-width: 991px) and (min-width:768px) {
+                            display: block !important;
+                        }
+                    }
+                }
